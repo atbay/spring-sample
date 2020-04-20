@@ -6,7 +6,7 @@
 
 
  ## 前提条件
-- eclipse にLombokが導入済み[^1]
+- eclipse にLombokが導入済み [^1]
 - java8以上がインストール済み
 - postgresql構築済み  
 
