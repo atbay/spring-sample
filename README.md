@@ -6,11 +6,11 @@
 
 
  ## 前提条件
-- eclipse にLombokが導入済み[^1]
+- eclipse にLombokが導入済み
 - java8以上がインストール済み
 - postgresql構築済み  
 
-[^1]:　pleiadesのLombok付きをインストールすると楽[pleiades](https://mergedoc.osdn.jp/)
+LombaokについてはpleiadesのLombok付きをインストールすると楽[pleiades](https://mergedoc.osdn.jp/)
 
 
 ## 手順
