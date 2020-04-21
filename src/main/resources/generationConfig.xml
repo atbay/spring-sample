@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <context id="PostgresTables" targetRuntime="MyBatis3">
+
+    <!-- スキーマ情報を取得する DB への接続設定 -->
+    <jdbcConnection driverClass="org.postgresql.Driver"
+        connectionURL="jdbc:postgresql://localhost:5432/sampledb"
+        userId="spring"
+        password="spring">
+    </jdbcConnection>
+
+    <!-- SELECT 結果等を格納するドメインモデルを生成する設定 -->
+    <javaModelGenerator targetPackage="com.example.demo.domain.entity" targetProject="spring-sample/src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="false" />
+    </javaModelGenerator>
+
+    <!-- SQL 設定が記述された XML を生成する設定 -->
+    <sqlMapGenerator targetPackage="com.example.demo.domain.mapper" targetProject="spring-sample/src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <!-- マッパークラスを生成する設定 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.demo.domain.mapper" targetProject="spring-sample/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <!-- コードを生成するテーブルを指定 -->
+    <table schema="" tableName="users"
+      domainObjectName="users.Users"
+      mapperName="users.UsersMapper"
+      enableCountByExample="true"
+      enableDeleteByPrimaryKey="true"
+      enableDeleteByExample="true"
+      enableInsert="true"
+      enableSelectByPrimaryKey="true"
+      enableSelectByExample="true"
+      enableUpdateByPrimaryKey="true"
+      enableUpdateByExample="true"
+      modelType="hierarchical">
+      <property name="useActualColumnNames" value="false" />
+    </table>
+    <table schema="" tableName="organizations"
+      domainObjectName="organizations.Organizations"
+      mapperName="organizations.OrganizationsMapper"
+      enableCountByExample="true"
+      enableDeleteByPrimaryKey="true"
+      enableDeleteByExample="true"
+      enableInsert="true"
+      enableSelectByPrimaryKey="true"
+      enableSelectByExample="true"
+      enableUpdateByPrimaryKey="true"
+      enableUpdateByExample="true"
+      modelType="hierarchical">
+      <property name="useActualColumnNames" value="false" />
+    </table>
+
+  </context>
+</generatorConfiguration>
