@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.service.users.UsersService;
@@ -29,6 +30,11 @@ public class UserRestController {
 	@Autowired
 	private UsersService usersService;
 
+	// applications.propertiesからの読み込み
+	// アノテーションで直接変数に読み込める
+	@Value("${demo.test.settings:default}")
+	private String settingTestVal;
+
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -38,6 +44,7 @@ public class UserRestController {
 			@PathParam("deleted") Boolean deleted,
 			@PathParam("orderByClause") String orderByClause) {
 		log.info("users - get.\n");
+		log.info("settings test={}", settingTestVal);
 		return this.usersService.find(organizationsId, name, deleted, orderByClause);
 	}
 
