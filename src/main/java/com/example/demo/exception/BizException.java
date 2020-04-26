@@ -1,6 +1,7 @@
 package com.example.demo.exception;
 
 public class BizException extends BaseException {
+
 	public BizException() {
 		super();
 	}

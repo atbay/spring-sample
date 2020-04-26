@@ -13,9 +13,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.service.users.UsersService;
+import com.example.demo.exception.ApiException;
 import com.example.demo.exception.BizException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +60,8 @@ public class UserRestController {
 		log.info("users - get. user_id={}\n", id);
 		if (id < 0) {
 			// エラーの場合は例外をスローする
-			throw new BizException("invalid arguments.");
+//			throw new BizException("invalid arguments.");
+			throw new ApiException("invalid arguments.", HttpStatus.BAD_REQUEST);
 		}
 
 		return this.usersService.findByPrimaryKey(id);
