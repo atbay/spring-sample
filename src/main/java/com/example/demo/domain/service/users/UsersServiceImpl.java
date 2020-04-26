@@ -28,48 +28,50 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-    private final String WILD_CARD = "%";
+	private final String WILD_CARD = "%";
 
-    private String makeLikePhrase(String value) {
-        return String.format("%s%s%s", WILD_CARD, value, WILD_CARD);
-    }
+	private String makeLikePhrase(String value) {
+		return String.format("%s%s%s", WILD_CARD, value, WILD_CARD);
+	}
 
 	@Override
-	public List<UsersBean> find(Long organizationsId,
-            String name, Boolean deleted, String orderByClause) {
-        List<UsersBean> beans = new ArrayList<>();
-        UsersExample example = makeExample(organizationsId,
-                name, deleted, orderByClause);
-        List<Users> entityList = usersMapper.selectByExample(example);
-        if (entityList != null && !entityList.isEmpty()) {
-            for (Users entity : entityList) {
-                UsersBean bean = modelMapper.map(entity, UsersBean.class);
-                beans.add(bean);
-            }
-        }
+	public List<UsersBean> find(Long organizationsId, String name, Boolean deleted, String orderByClause, Integer limit,
+			Integer offset) {
+		List<UsersBean> beans = new ArrayList<>();
+		UsersExample example = makeExample(organizationsId,
+				name, deleted, orderByClause, limit, offset);
+		List<Users> entityList = usersMapper.selectByExample(example);
+		if (entityList != null && !entityList.isEmpty()) {
+			for (Users entity : entityList) {
+				UsersBean bean = modelMapper.map(entity, UsersBean.class);
+				beans.add(bean);
+			}
+		}
 		return beans;
 	}
 
-    private UsersExample makeExample(Long organizationsId,
-            String name, Boolean deleted, String orderByClause) {
-        UsersExample example = new UsersExample();
-        if (orderByClause != null) {
-            example.setOrderByClause(orderByClause);
-        } else {
-            example.setOrderByClause("id");
-        }
-        UsersExample.Criteria criteria = example.createCriteria();
-        if (organizationsId != null) {
-            criteria.andOrganizationsIdEqualTo(organizationsId);
-        }
-        if (name != null && name.length() > 0) {
-            criteria.andNameLike(this.makeLikePhrase(name));
-        }
-        if (deleted != null) {
-            criteria.andDeletedEqualTo(deleted);
-        }
-        return example;
-    }
+	private UsersExample makeExample(Long organizationsId,
+			String name, Boolean deleted, String orderByClause, Integer limit, Integer offset) {
+		UsersExample example = new UsersExample();
+//		example.setLimit(limit);
+//		example.setOffset(offset);
+		if (orderByClause != null) {
+			example.setOrderByClause(orderByClause);
+		} else {
+			example.setOrderByClause("id");
+		}
+		UsersExample.Criteria criteria = example.createCriteria();
+		if (organizationsId != null) {
+			criteria.andOrganizationsIdEqualTo(organizationsId);
+		}
+		if (name != null && name.length() > 0) {
+			criteria.andNameLike(this.makeLikePhrase(name));
+		}
+		if (deleted != null) {
+			criteria.andDeletedEqualTo(deleted);
+		}
+		return example;
+	}
 
 	@Override
 	public UsersBean findByPrimaryKey(Long id) {
