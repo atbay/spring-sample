@@ -9,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,12 @@ public class UserRestController {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<UsersBean> getList(
-			@PathParam("organizations_id") Long organizationsId,
-			@PathParam("name") String name,
-			@PathParam("deleted") Boolean deleted,
-			@PathParam("orderByClause") String orderByClause,
-			@PathParam("limit") Integer limit,
-			@PathParam("offset") Integer offset) {
+			@QueryParam("organizations_id") Long organizationsId,
+			@QueryParam("name") String name,
+			@QueryParam("deleted") Boolean deleted,
+			@QueryParam("orderByClause") String orderByClause,
+			@QueryParam("limit") Long limit,
+			@QueryParam("offset") Long offset) {
 		log.info("users - get.\n");
 		log.info("settings test={}", settingTestVal);
 		return this.usersService.find(organizationsId, name, deleted, orderByClause, limit, offset);

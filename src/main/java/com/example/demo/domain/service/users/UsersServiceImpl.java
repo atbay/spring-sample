@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,11 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public List<UsersBean> find(Long organizationsId, String name, Boolean deleted, String orderByClause, Integer limit,
-			Integer offset) {
+	public List<UsersBean> find(Long organizationsId, String name, Boolean deleted, String orderByClause, Long limit,
+			Long offset) {
 		List<UsersBean> beans = new ArrayList<>();
-		UsersExample example = makeExample(organizationsId,
-				name, deleted, orderByClause, limit, offset);
-		List<Users> entityList = usersMapper.selectByExample(example);
+		UsersExample example = makeExample(organizationsId, name, deleted, orderByClause);
+		List<Users> entityList = usersMapper.selectByExampleWithRowbounds(example, makeRowBounds(offset, limit));
 		if (entityList != null && !entityList.isEmpty()) {
 			for (Users entity : entityList) {
 				UsersBean bean = modelMapper.map(entity, UsersBean.class);
@@ -51,10 +51,8 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	private UsersExample makeExample(Long organizationsId,
-			String name, Boolean deleted, String orderByClause, Integer limit, Integer offset) {
+			String name, Boolean deleted, String orderByClause) {
 		UsersExample example = new UsersExample();
-//		example.setLimit(limit);
-//		example.setOffset(offset);
 		if (orderByClause != null) {
 			example.setOrderByClause(orderByClause);
 		} else {
@@ -71,6 +69,18 @@ public class UsersServiceImpl implements UsersService {
 			criteria.andDeletedEqualTo(deleted);
 		}
 		return example;
+	}
+
+	private RowBounds makeRowBounds(Long offset, Long limit) {
+		int offsetInt = 0;
+		int limitInt = Integer.MAX_VALUE;
+		if (offset != null && offset > 0) {
+			offsetInt = offset.intValue();
+		}
+		if (limit != null && limit > 0) {
+			limitInt = limit.intValue();
+		}
+		return new RowBounds(offsetInt, limitInt);
 	}
 
 	@Override
