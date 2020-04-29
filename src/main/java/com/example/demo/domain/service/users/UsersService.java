@@ -18,7 +18,7 @@ public interface UsersService {
 	 */
 	public List<UsersBean> find(Long organizationsId,
             String name, Boolean deleted, String orderByClause,
-            Integer limit, Integer offset);
+            Long limit, Long offset);
 
 	/**
 	 * ユーザ取得
