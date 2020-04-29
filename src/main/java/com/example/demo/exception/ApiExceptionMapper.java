@@ -27,17 +27,20 @@ public class ApiExceptionMapper implements ExceptionMapper<ApiException> {
 
 		log.error("message", exception);
 		ErrorResource body = ErrorResource.getInstance(exception);
-		body.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-		if (exception.getStatus() != null) {
-			body.setStatus(exception.getStatus().value());
-		} else {
-			body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		}
-
 		body.setPath(path);
 		body.setMethod(method);
-		return Response.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).entity(body)
-				.type(MediaType.APPLICATION_JSON).build();
+		if (exception.getStatus() != null) {
+			body.setStatus(exception.getStatus().value());
+			body.setError(exception.getStatus().getReasonPhrase());
+			return Response.status(exception.getStatus().value()).entity(body)
+					.type(MediaType.APPLICATION_JSON).build();
+		} else {
+			body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			body.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+			return Response.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).entity(body)
+					.type(MediaType.APPLICATION_JSON).build();
+
+		}
 	}
 
 }
