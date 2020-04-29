@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.api.users.UserRestController;
+import com.example.demo.exception.ApiExceptionMapper;
+import com.example.demo.exception.CoreExceptionMapper;
 
 @Component
 @Configuration
@@ -22,6 +24,7 @@ public class JerseyConfig extends ResourceConfig implements WebMvcConfigurer {
 		// api
 		register(UserRestController.class);
 
-
+		register(ApiExceptionMapper.class);
+		register(CoreExceptionMapper.class);
 	}
 }

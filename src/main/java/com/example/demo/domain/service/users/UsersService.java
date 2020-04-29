@@ -12,10 +12,13 @@ public interface UsersService {
 	 * @param name
 	 * @param deleted
 	 * @param orderByClause
+	 * @param limit
+	 * @param offset
 	 * @return
 	 */
 	public List<UsersBean> find(Long organizationsId,
-            String name, Boolean deleted, String orderByClause);
+            String name, Boolean deleted, String orderByClause,
+            Integer limit, Integer offset);
 
 	/**
 	 * ユーザ取得
